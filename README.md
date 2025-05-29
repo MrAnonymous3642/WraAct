@@ -4,6 +4,8 @@ This is an artifact for the tool called **WraAct** to over-approximate the funct
 
 This is for the paper **Convex Hull Approximation for Activation Functions**.
 
+> TIP: You can download our original logs and benchmark onnx models from the following Google drive [**sharing link**](https://drive.google.com/drive/folders/1C4kYaKb_Pd3xCo6aCy6W80tw43CM8Nn8?usp=sharing).
+
 # Installation
 
 ## Requirements and Dependencies
@@ -94,8 +96,6 @@ We have a good class structure for different activation functions and layer stru
 # Usage
 
 This section describes how to run the evaluation code in the paper. The evaluation code is in the `evaluation_volume` and `evaluation_verification` folders.
-
-> TIP: You can download our original logs and benchmark onnx models from the following Google drive [**sharing link**](https://drive.google.com/drive/folders/1C4kYaKb_Pd3xCo6aCy6W80tw43CM8Nn8?usp=sharing).
 
 ## Evaluation: Function Hull Approximation
 
