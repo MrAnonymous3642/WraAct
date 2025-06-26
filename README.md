@@ -35,8 +35,7 @@ If you're familiar with Python and the libraries we use, you can quickly install
 ```cmd
 git clone https://github.com/MrAnonymous3642/WraAct.git WraAct
 cd WraAct
-bash setup_wraact_env.sh
-bash download_resources.sh
+bash setup_wraact.sh
 bash test_wraact.sh
 ```
 
