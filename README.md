@@ -6,7 +6,37 @@ This artifact accompanies the paper **Convex Hull Approximation for Activation F
 
 > **TIP**: You can download our original logs and benchmark ONNX models from this [**Google Drive link**](https://drive.google.com/drive/folders/1C4kYaKb_Pd3xCo6aCy6W80tw43CM8Nn8?usp=sharing).
 
-# Installation
+# Quick Installation and Test
+
+If you're familiar with Python and the libraries we use, you can quickly install WraAct by following these steps:
+
+```cmd
+git clone https://github.com/MrAnonymous3642/WraAct.git WraAct
+cd WraAct
+bash setup_wraact_env.sh
+bash download_resources.sh
+bash test_wraact.sh
+```
+
+This part includes the installation of the required libraries, downloading the benchmark ONNX models, downloading the archived logs of our paper, and running a quick test to check if the tool works well.
+
+> **NOTE**: If you encounter any issues during the installation, please refer to the [Step-by-Step Installation](#step-by-step-installation) section below for detailed instructions.
+
+# Quick Reproduce Results
+
+You can check the archived logs of our paper in the `archived_logs` folder.
+
+Or you can reproduce the results in our paper by running the following commands:
+The part 1 is about the volume evaluation of convex hull approximation for activation functions, and it will take about 30 minutes to run. The part 2 is about the local robustness verification, and it will take about 2~3 days to run.
+
+```cmd
+bash reproduce_part1.sh
+bash reproduce_part2.sh
+```
+
+> **NOTE**: If you want to run the evaluation code in detail, please refer to the [Step-by-Step Reproduce Results in the Paper](#step-by-step-reproduce-results-in-the-paper) section below for detailed instructions.
+
+# Step-by-Step Installation
 
 > **NOTE:** The following demonstrates the installation of our tool _rather than_ all the baseline approaches, e.g., [auto_LiRPA](https://github.com/Verified-Intelligence/auto_LiRPA) for [CROWN](https://arxiv.org/pdf/1811.00866), [ERAN](https://github.com/eth-sri/eran) for [DeepPoly](https://dl.acm.org/doi/pdf/10.1145/3290354) and [PRIMA](https://dl.acm.org/doi/pdf/10.1145/3498704) in the evaluation of the paper. The following installation instructions are for a [Linux](https://en.wikipedia.org/wiki/Linux) system (e.g., [Ubuntu](https://ubuntu.com/)). If you want to run the code on a [Microsoft Windows](https://en.wikipedia.org/wiki/Microsoft_Windows) or [macOS](https://en.wikipedia.org/wiki/MacOS) system, you just need to set up a [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html) environment with the corresponding Python libraries. The code is pure Python and does not depend on any system-specific libraries.
 
@@ -110,45 +140,7 @@ You also need to install the software [TexLive](https://www.tug.org/texlive/) if
 
 At this point, you have installed all required libraries.
 
-# Main Code Structure
-
-The folder structure of this repository is as follows. We only list the main folders and files here. The source code of WraAct is in the `src/` folder, which contains the code for bound propagation, function hull approximation, linear programming, model building, and utility functions. The evaluation code is in the `evaluation_volume` and `evaluation_verification` folders.
-
-```
-WraAct/                      # Main folder of WraAct
-├── .temp/                   # Auto-created temporary files (e.g., downloaded datasets)
-├── archived_logs/           # Archived logs of our paper (download from Google Drive)
-├── evaluation_volume/       # Code for volume evaluation of convex hull approximation
-├── evaluation_verification/ # Code for local robustness verification
-├── nets/                    # Benchmark ONNX models (download from Google Drive)
-├── src/                     # Source code of WraAct
-│   ├── boundprop/           # Code for bound propagation
-│   │   ├── ineq/            # Linear inequalities bounds for propagation
-│   │   │   ├── backsub/     # Symbolic back-substitution for inequalities
-│   │   │   └── relaxation/  # Linear relaxation for activation functions
-│   │   └── base.py          # Base classes for propagation
-│   ├── funchull/            # Code for function hull approximation
-│   ├── linprog/             # Code for linear programming
-│   ├── model/               # Code for verification models
-│   └── utils/               # Miscellaneous utility functions
-└── README.md
-ELINA/                       # (Optional) ELINA for SBLM+PDDM in PRIMA (for baseline comparison)
-ERAN/                        # (Optional) ERAN for DeepPoly and PRIMA (for baseline comparison)
-auto-LiRPA/                  # (Optional) auto_LiRPA for CROWN (for baseline comparison)
-```
-
-The archived logs of our paper are in the `archieved_logs` folder. The benchmark models are in the `nets` folder. The other folders are for baseline approaches, including ELINA for SBLM+PDDM in PRIMA, ERAN for DeepPoly and PRIMA, and auto-LiRPA for vanilla CROWN.
-
-> **NOTE**:
-> - You need to download the benchmark ONNX models from the [Google Drive link](https://drive.google.com/drive/folders/1C4kYaKb_Pd3xCo6aCy6W80tw43CM8Nn8?usp=sharing) and put them in the `nets` folder.
-> - The MNIST and CIFAR-10 datasets will be downloaded automatically when you run the code with PyTorch. They are saved in the `.temp` folder.
-
-> **TIP**: The following folders are not necessary for running the code, and you can skip them if you only want to run the code in this repository.
-> - Download the archived logs of our paper from the [Google Drive link](https://drive.google.com/drive/folders/1C4kYaKb_Pd3xCo6aCy6W80tw43CM8Nn8?usp=sharing) and put them in the `archieved_logs` folder.
-> - Install [auto_LiRPA](https://github.com/Verified-Intelligence/auto_LiRPA) for [CROWN](https://arxiv.org/pdf/1811.00866) and put it in the `auto-LiRPA` folder.
-> - Install [ERAN](https://github.com/eth-sri/eran) for [DeepPoly](https://dl.acm.org/doi/pdf/10.1145/3290354) and [PRIMA](https://dl.acm.org/doi/pdf/10.1145/3498704) and put it in the `ERAN` folder. Note: when you install ERAN, you need to install the [ELINA](https://github.com/eth-sri/ELINA) project first and put it in the `ELINA` folder. This may require some file structure changes in the `ERAN` folder.
-
-# Reproduce Results in the Paper
+# Step-by-Step Reproduce Results in the Paper
 
 This section describes how to run the evaluation code in the paper. The evaluation code is in the `evaluation_volume` and `evaluation_verification` folders.
 
@@ -270,6 +262,46 @@ bash resnet.sh
 ```
 
 # Reuse the Source Code
+
+## Main Code Structure
+
+The folder structure of this repository is as follows. We only list the main folders and files here. The source code of WraAct is in the `src/` folder, which contains the code for bound propagation, function hull approximation, linear programming, model building, and utility functions. The evaluation code is in the `evaluation_volume` and `evaluation_verification` folders.
+
+```
+WraAct/                      # Main folder of WraAct
+├── .temp/                   # Auto-created temporary files (e.g., downloaded datasets)
+├── archived_logs/           # Archived logs of our paper (download from Google Drive)
+├── evaluation_volume/       # Code for volume evaluation of convex hull approximation
+├── evaluation_verification/ # Code for local robustness verification
+├── nets/                    # Benchmark ONNX models (download from Google Drive)
+├── src/                     # Source code of WraAct
+│   ├── boundprop/           # Code for bound propagation
+│   │   ├── ineq/            # Linear inequalities bounds for propagation
+│   │   │   ├── backsub/     # Symbolic back-substitution for inequalities
+│   │   │   └── relaxation/  # Linear relaxation for activation functions
+│   │   └── base.py          # Base classes for propagation
+│   ├── funchull/            # Code for function hull approximation
+│   ├── linprog/             # Code for linear programming
+│   ├── model/               # Code for verification models
+│   └── utils/               # Miscellaneous utility functions
+└── README.md
+ELINA/                       # (Optional) ELINA for SBLM+PDDM in PRIMA (for baseline comparison)
+ERAN/                        # (Optional) ERAN for DeepPoly and PRIMA (for baseline comparison)
+auto-LiRPA/                  # (Optional) auto_LiRPA for CROWN (for baseline comparison)
+```
+
+The archived logs of our paper are in the `archieved_logs` folder. The benchmark models are in the `nets` folder. The other folders are for baseline approaches, including ELINA for SBLM+PDDM in PRIMA, ERAN for DeepPoly and PRIMA, and auto-LiRPA for vanilla CROWN.
+
+> **NOTE**:
+> - You need to download the benchmark ONNX models from the [Google Drive link](https://drive.google.com/drive/folders/1C4kYaKb_Pd3xCo6aCy6W80tw43CM8Nn8?usp=sharing) and put them in the `nets` folder.
+> - The MNIST and CIFAR-10 datasets will be downloaded automatically when you run the code with PyTorch. They are saved in the `.temp` folder.
+
+> **TIP**: The following folders are not necessary for running the code, and you can skip them if you only want to run the code in this repository.
+> - Download the archived logs of our paper from the [Google Drive link](https://drive.google.com/drive/folders/1C4kYaKb_Pd3xCo6aCy6W80tw43CM8Nn8?usp=sharing) and put them in the `archieved_logs` folder.
+> - Install [auto_LiRPA](https://github.com/Verified-Intelligence/auto_LiRPA) for [CROWN](https://arxiv.org/pdf/1811.00866) and put it in the `auto-LiRPA` folder.
+> - Install [ERAN](https://github.com/eth-sri/eran) for [DeepPoly](https://dl.acm.org/doi/pdf/10.1145/3290354) and [PRIMA](https://dl.acm.org/doi/pdf/10.1145/3498704) and put it in the `ERAN` folder. Note: when you install ERAN, you need to install the [ELINA](https://github.com/eth-sri/ELINA) project first and put it in the `ELINA` folder. This may require some file structure changes in the `ERAN` folder.
+
+## How to Extend the Code
 
 You can refer to the source code structure in the `src/` folder. The source code is organized into several modules, including bound propagation, function hull approximation, linear programming, model building, and utility functions.
 
