@@ -1,3 +1,6 @@
+"""
+This script is used to run the verification experiment for a neural network model.
+"""
 import argparse
 import sys
 
@@ -43,7 +46,7 @@ def main(args):
         log_file=log_file,
         optimization_method=opt_method,
         first_sample_index=0,
-        num_samples=1,
+        num_samples=100,
         device="cuda:0",  # noqa
         dtype="float64",
     )

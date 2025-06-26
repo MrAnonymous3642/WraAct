@@ -7,12 +7,11 @@ convex hulls of the grouped neurons.
     This neuron grouping strategy framework is proposed by
 
     - `Beyond the single neuron convex barrier for neural network certification
-      <https://proceedings.neurips.cc/paper_files/paper/2019/file/0a9fdbb17feb6ccb7ec405cfb85222c4-Paper.pdf>`__
-      :cite:`singh_beyond_2019`
+      <https://proceedings.neurips.cc/paper_files/paper/2019/file
+      /0a9fdbb17feb6ccb7ec405cfb85222c4-Paper.pdf>`__
+
     - `PRIMA: General and Precise Neural Network Certification via Scalable
       Convex Hull Approximations <https://dl.acm.org/doi/pdf/10.1145/3498704>`__
-      :cite:`muller_prima_2022`
-
 """
 
 __docformat__ = "restructuredtext"
@@ -344,9 +343,6 @@ def cal_grouped_acthull(
     grouped_ids: Tensor,
     grouped_input_constrs: Tensor,
     act_type: ActivationType,
-    cal_one_y: bool = False,
-    n_constrs_candidates: int = 1,
-    use_maxpool_dlp: bool = False,
     pool_input_l: Tensor | None = None,
     pool_input_u: Tensor | None = None,
     use_multi_threads: bool = True,
@@ -364,10 +360,7 @@ def cal_grouped_acthull(
     :param grouped_input_constrs: The input constraints of the grouped neurons.
     :param act_type: The type of the activation function. Refer to
         :class:`ActivationType` for more details.
-    :param cal_one_y: Whether to calculate the convex hulls with only one output
         constraint, which is used for bound propagation with multi-neuron constraints.
-    :param n_constrs_candidates: The number of output constraints.
-    :param use_maxpool_dlp: Whether to use the DLP method for the max pooling layer.
     :param pool_input_l: The lower bounds of the input neurons in the max pooling layer.
     :param pool_input_u: The upper bounds of the input neurons in the max pooling layer.
     :param use_multi_threads: Whether to use multi-threads to calculate the convex
@@ -382,9 +375,7 @@ def cal_grouped_acthull(
     logger.debug("Start calculating convex hulls.")
     time_start = time.perf_counter()
 
-    fun_hull = _get_func_hull(
-        act_type, cal_one_y, use_maxpool_dlp, n_constrs_candidates
-    )
+    fun_hull = _get_func_hull(act_type)
     grouped_l, grouped_u = _group_input_bounds(
         act_type, pre_l, pre_u, mask_mn, grouped_ids, pool_input_l, pool_input_u
     )
@@ -410,33 +401,21 @@ def cal_grouped_acthull(
     return grouped_constrs
 
 
-def _get_func_hull(
-    act_type: ActivationType,
-    cal_one_y: bool,
-    use_maxpool_dlp: bool,
-    n_constrs_candidates: int,
-) -> ActHull:
+def _get_func_hull(act_type: ActivationType) -> ActHull:
     hull_classes = {
-        ActivationType.RELU: (ReLUHull, ReLUHullWithOneY),
-        ActivationType.LEAKY_RELU: (LeakyReLUHull, LeakyReLUHullWithOneY),
-        ActivationType.ELU: (ELUHull, ELUHullWithOneY),
-        ActivationType.SIGMOID: (SigmoidHull, SigmoidHullWithOneY),
-        ActivationType.TANH: (TanhHull, TanhHullWithOneY),
-        ActivationType.MAXPOOL2D: (
-            MaxPoolHullDLP if use_maxpool_dlp else MaxPoolHull,
-            MaxPoolHullDLPWithOneY if use_maxpool_dlp else MaxPoolHullWithOneY,
-        ),
+        ActivationType.RELU: ReLUHull,
+        ActivationType.LEAKY_RELU: LeakyReLUHull,
+        ActivationType.ELU: ELUHull,
+        ActivationType.SIGMOID: SigmoidHull,
+        ActivationType.TANH: TanhHull,
+        ActivationType.MAXPOOL2D: MaxPoolHullDLP,
     }
 
     if act_type not in hull_classes:
         raise NotImplementedError(f"Activation function {act_type} is not supported.")
 
-    HullClass = hull_classes[act_type][1] if cal_one_y else hull_classes[act_type][0]
-    return (
-        HullClass(n_output_constraints=n_constrs_candidates)
-        if cal_one_y
-        else HullClass()
-    )
+    HullClass = hull_classes[act_type]
+    return HullClass()
 
 
 def _group_input_bounds(
@@ -472,7 +451,6 @@ def _cal_func_hull(
     grouped_u: list[Tensor],
     use_multi_threads: bool,
 ) -> list[ndarray] | list[tuple[ndarray, ndarray, ndarray]]:
-
     grouped_input_constrs = grouped_input_constrs.detach().cpu().numpy()
     # The number of output constraints in each group may be different. So we use a
     # list to store the output constraints. But that is for LP. For BP, the number of
@@ -520,7 +498,7 @@ def _collect_trivial_pool_idxs(
 
 
 def back_substitute_to_input_kact(
-    self: "BasicIneqNode",
+    self: "BasicIneqNode",  # noqa
     constr_bound: LConstrBound,
     input_bound: ScalarBound,
 ) -> ScalarBound:
@@ -546,8 +524,8 @@ def back_substitute_to_input_kact(
 
     in_residual_block = False
     constr_bound_r: LConstrBound | None = None
-    residual_second_path: list["BasicIneqNode"] = []
-    module: "BasicIneqNode" = self
+    residual_second_path: list["BasicIneqNode"] = []  # noqa
+    module: "BasicIneqNode" = self  # noqa
     while True:
         if (
             constr_bound_r is not None

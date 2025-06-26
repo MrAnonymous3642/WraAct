@@ -1,3 +1,7 @@
+"""
+This script is used to test the verification of a neural network model by one small
+sample.
+"""
 import sys
 
 sys.path.append("../")

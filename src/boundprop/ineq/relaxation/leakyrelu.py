@@ -28,6 +28,6 @@ def _cal_relaxation_leakyrelu(l: Tensor, u: Tensor, alpha: float):
 
 
 def cal_relaxation_leakyrelu(
-    l: Tensor, u: Tensor, mode: ActRelaxationMode, to_sparse: bool, alpha: float = 0.01
+    l: Tensor, u: Tensor, mode: ActRelaxationMode, alpha: float = 0.01
 ) -> tuple[Tensor, Tensor, Tensor, Tensor]:
     return _cal_relaxation_leakyrelu(l, u, alpha)

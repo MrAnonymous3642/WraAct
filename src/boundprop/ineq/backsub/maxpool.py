@@ -149,6 +149,7 @@ def back_substitute_maxpool2d(
     :param kernel_size: The size of the kernel.
     :param stride: The stride of the maxpool operation.
     :param padding: The padding of the maxpool operation.
+    :param dilation: The dilation of the maxpool operation.
     """
     c, hi, wi = input_size
     k = output_size[1] * output_size[2]

@@ -1,7 +1,6 @@
 """This is for calculating the volume given function hulls."""
 
 import os
-import sys
 import time
 from typing import List, Optional, Tuple
 

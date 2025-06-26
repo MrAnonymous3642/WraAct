@@ -86,6 +86,7 @@ def solve_lp(
     :param constraints: The constraints of the linear programming problem.
     :param obj_func: The objective function of the linear programming problem.
     :param obj_type: The type of the objective function, GRB.MAXIMIZE or GRB.MINIMIZE.
+
     :return: The optimal solution and the optimal value of the linear programming problem.
     """
     model = grb.Model("Solve LP by GUROBI")

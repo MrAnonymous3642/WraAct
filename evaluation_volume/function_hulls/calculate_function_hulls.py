@@ -1,8 +1,8 @@
 """This is for calculating the function hull with given constraints and bounds."""
 
 import os
-import time
 import sys
+import time
 import warnings
 
 cpu_affinity = os.sched_getaffinity(0)
@@ -12,7 +12,7 @@ sys.path.insert(0, "../../../ELINA/python_interface/")
 import numpy as np
 
 try:
-    from fconv import *
+    from fconv import ftanh_orthant, fsigm_orthant, fkpool  # noqa
 except ImportError as e:
     warnings.warn(
         f"[WARNING] ELINA is not installed, so we cannot use some methods in fconv: {e}"
@@ -104,7 +104,7 @@ if __name__ == "__main__":
                 output_constraints = None
                 if method == "prima_sigmoid":
                     try:
-                        output_constraints = ftanh_orthant(constraints)
+                        output_constraints = fsigm_orthant(constraints)
                     except Exception as e:
                         print(
                             f"[WARNING] Failed to calculate hull for "
@@ -121,7 +121,7 @@ if __name__ == "__main__":
                         )
                 elif method == "prima_maxpool":
                     try:
-                        output_constraints = fkpool(constraints)
+                        output_constraints = fkpool(constraints)  # noqa
                     except Exception as e:
                         print(
                             f"[WARNING] Failed to calculate hull for "

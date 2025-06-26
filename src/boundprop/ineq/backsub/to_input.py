@@ -14,7 +14,7 @@ from ....utils import LConstrBound, ScalarBound
 
 
 def back_substitute_to_input(
-    self: "BasicIneqNode",
+    self: "BasicIneqNode",  # noqa
     constr_bound: LConstrBound,
 ) -> LConstrBound:
     """
@@ -32,12 +32,12 @@ def back_substitute_to_input(
     # The constraint bound for the output of the residual block.
     constr_bound_r: LConstrBound | None = None
     # The queue to store the modules in the second path of the residual block.
-    residual_second_path: list["BasicIneqNode"] = []
+    residual_second_path: list["BasicIneqNode"] = []  # noqa
     # If self is after a residual block and the current module is in the residual block,
     # then do not update the bound by the current module.
     in_residual_block = False
 
-    module: "BasicIneqNode" = self
+    module: "BasicIneqNode" = self  # noqa
     while True:
         if (
             constr_bound_r is not None
@@ -76,8 +76,8 @@ def back_substitute_to_input(
 
 
 def back_substitute_once_with_update_bound(
-    self: "BasicIneqNode",
-    module: "BasicIneqNode",
+    self: "BasicIneqNode",  # noqa
+    module: "BasicIneqNode",  # noqa
     constr_bound: LConstrBound,
     in_residual_block: bool,
     store_updated_bounds: bool = True,
@@ -105,10 +105,10 @@ def back_substitute_once_with_update_bound(
 
 
 def collect_residual_second_path(
-    module: "BasicIneqNode",
+    module: "BasicIneqNode",  # noqa
     constr_bound: LConstrBound,
-    residual_second_path: list["BasicIneqNode"],
-) -> tuple[LConstrBound, list["BasicIneqNode"]]:
+    residual_second_path: list["BasicIneqNode"],  # noqa
+) -> tuple[LConstrBound, list["BasicIneqNode"]]:  # noqa
     # For residual block, there will be two paths to the input.
     # We collect the modules in the second path and process them later.
     # The input biases will be calculated in the second path, so we do not
@@ -127,18 +127,18 @@ def collect_residual_second_path(
 
 
 def back_substitute_residual_second_path(
-    self: "BasicIneqNode",
-    module: "BasicIneqNode",
+    self: "BasicIneqNode",  # noqa
+    module: "BasicIneqNode",  # noqa
     constr_bound: LConstrBound,
     constr_bound_r: LConstrBound,
-    residual_second_path: list["BasicIneqNode"],
+    residual_second_path: list["BasicIneqNode"],  # noqa
     store_updated_bounds: bool = True,
 ) -> (
-    tuple[LConstrBound, None, list["BasicIneqNode"]]
-    | tuple[LConstrBound, None, list["BasicIneqNode"], ScalarBound | None]
+    tuple[LConstrBound, None, list["BasicIneqNode"]]  # noqa
+    | tuple[LConstrBound, None, list["BasicIneqNode"], ScalarBound | None]  # noqa
 ):
     logger = logging.getLogger("rover")
-    residual_second_path: list["BasicIneqNode"]
+    residual_second_path: list["BasicIneqNode"]  # noqa
     for module_r in residual_second_path:
         constr_bound_r = module_r.back_substitute_once(constr_bound_r)
     constr_bound_r.L.A = constr_bound_r.L.A.reshape(constr_bound.L.A.shape)

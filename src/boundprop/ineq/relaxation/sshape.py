@@ -96,7 +96,6 @@ def cal_relaxation_sshape(
     f: Callable,
     df: Callable,
     mode: ActRelaxationMode,
-    to_sparse: bool,
 ) -> tuple[Tensor, Tensor, Tensor, Tensor]:
     yl, yu, kl, ku = f(l), f(u), df(l), df(u)
 
@@ -119,15 +118,11 @@ def cal_relaxation_sigmoid(
     l: Tensor,
     u: Tensor,
     mode: ActRelaxationMode,
-    to_sparse: bool,
 ) -> tuple[Tensor, Tensor, Tensor, Tensor]:
-    return cal_relaxation_sshape(l, u, sigmoid, dsigmoid, mode, to_sparse)
+    return cal_relaxation_sshape(l, u, sigmoid, dsigmoid, mode)
 
 
 def cal_relaxation_tanh(
-    l: Tensor,
-    u: Tensor,
-    mode: ActRelaxationMode,
-    to_sparse: bool,
+    l: Tensor, u: Tensor, mode: ActRelaxationMode
 ) -> tuple[Tensor, Tensor, Tensor, Tensor]:
-    return cal_relaxation_sshape(l, u, tanh, dtanh, mode, to_sparse)
+    return cal_relaxation_sshape(l, u, tanh, dtanh, mode)

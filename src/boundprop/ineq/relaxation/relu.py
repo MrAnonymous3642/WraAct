@@ -26,6 +26,8 @@ def _cal_relaxation_relu(l: Tensor, u: Tensor) -> tuple[Tensor, Tensor, Tensor, 
 
 
 def cal_relaxation_relu(
-    l: Tensor, u: Tensor, mode: ActRelaxationMode, to_sparse: bool
+    l: Tensor,
+    u: Tensor,
+    mode: ActRelaxationMode,
 ) -> tuple[Tensor, Tensor, Tensor, Tensor]:
     return _cal_relaxation_relu(l, u)

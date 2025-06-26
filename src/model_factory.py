@@ -306,7 +306,8 @@ def _get_ignored_samples(
             break
 
         output = sess.run(
-            [output_name], {input_name: sample.numpy().astype(np.float32)}
+            [output_name],
+            {input_name: sample.numpy().astype(np.float32)},  # noqa
         )[0]
         # Attention, do not change the original sample
         if np.argmax(output) != int(label.item()):

@@ -43,7 +43,7 @@ for method in [
                 print(f"[WARNING] {file_path} Does not found and it is skipped.")
                 continue
 
-            lines = file.readlines()
+            lines = file.readlines()  # noqa
             file.close()
             lines = [line.split("\t")[0] for line in lines]
             data = [float(num) for num in lines]

@@ -46,7 +46,6 @@ def cal_relaxation_maxpool2d(
     l: Tensor,
     u: Tensor,
     mode: ActRelaxationMode,
-    to_sparse: bool,
     l_max: Tensor,
     l_argmax: Tensor,
     mask: Tensor,

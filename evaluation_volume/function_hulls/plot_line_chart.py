@@ -1,7 +1,8 @@
 """This is for plot the line chart in the paper."""
 
-# --------------------------------------------------------------------------------------
+
 # You can uncomment the following lines to use pgf for LaTeX integration
+# --------------------------------------------------------------------------------------
 # import matplotlib
 # matplotlib.rcParams["pgf.texsystem"] = "pdflatex"
 # matplotlib.rcParams.update({"font.family": "san-serif"})

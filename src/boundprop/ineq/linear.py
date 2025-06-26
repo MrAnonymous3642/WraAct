@@ -21,9 +21,9 @@ __all__ = [
 ]
 
 import logging
+import math
 from abc import abstractmethod, ABC
 
-import math
 import torch
 from torch import Tensor
 
@@ -659,7 +659,6 @@ class NonLinearIneqNode(BasicIneqNode, NonLinearNode, ABC):
         self,
         input_bound: ScalarBound,
         shared_data: BPSharedData,
-        to_sparse: bool = False,
     ) -> LConstrBound:
         """
         Calculate the relaxation based on single neuron constraints. The relaxation
@@ -668,7 +667,6 @@ class NonLinearIneqNode(BasicIneqNode, NonLinearNode, ABC):
 
         :param input_bound: The scalar bounds of the input.
         :param shared_data: The cached data of bound propagation.
-        :param to_sparse: Whether to convert the relaxation to sparse format.
 
         .. attention::
             The sparse format has not been implemented.
@@ -684,7 +682,6 @@ class NonLinearIneqNode(BasicIneqNode, NonLinearNode, ABC):
             pre_bound.l.flatten(),
             pre_bound.u.flatten(),
             self.act_relax_args.mode,
-            to_sparse,
         )
 
         return LConstrBound(L=LConstr(A=sl, b=tl), U=LConstr(A=su, b=tu))  # noqa
@@ -695,7 +692,6 @@ class NonLinearIneqNode(BasicIneqNode, NonLinearNode, ABC):
         l: Tensor,
         u: Tensor,
         mode: ActRelaxationMode,
-        to_sparse: bool = False,
     ) -> tuple[Tensor, Tensor, Tensor, Tensor]:
         pass
 
@@ -722,9 +718,8 @@ class ReLUIneqNode(NonLinearIneqNode, ReLUNode):
         l: Tensor,
         u: Tensor,
         mode: ActRelaxationMode,
-        to_sparse: bool = False,
     ) -> tuple[Tensor, Tensor, Tensor, Tensor]:
-        return cal_relaxation_relu(l, u, mode, to_sparse)
+        return cal_relaxation_relu(l, u, mode)
 
     def back_substitute_once(self, constr_bound: LConstrBound) -> LConstrBound:
         relaxation = self.all_relaxations[self.name]
@@ -780,9 +775,8 @@ class LeakyReLUIneqNode(NonLinearIneqNode, LeakyReLUNode):
         l: Tensor,
         u: Tensor,
         mode: ActRelaxationMode,
-        to_sparse: bool = False,
     ) -> tuple[Tensor, Tensor, Tensor, Tensor]:
-        return cal_relaxation_leakyrelu(l, u, mode, to_sparse)
+        return cal_relaxation_leakyrelu(l, u, mode)
 
 
 class ELUIneqNode(NonLinearIneqNode, ELUNode):
@@ -807,9 +801,8 @@ class ELUIneqNode(NonLinearIneqNode, ELUNode):
         l: Tensor,
         u: Tensor,
         mode: ActRelaxationMode,
-        to_sparse: bool = False,
     ) -> tuple[Tensor, Tensor, Tensor, Tensor]:
-        return cal_relaxation_elu(l, u, mode, to_sparse)
+        return cal_relaxation_elu(l, u, mode)
 
 
 class SigmoidIneqNode(NonLinearIneqNode, SigmoidNode):
@@ -834,9 +827,8 @@ class SigmoidIneqNode(NonLinearIneqNode, SigmoidNode):
         l: Tensor,
         u: Tensor,
         mode: ActRelaxationMode,
-        to_sparse: bool = False,
     ) -> tuple[Tensor, Tensor, Tensor, Tensor]:
-        return cal_relaxation_sigmoid(l, u, mode, to_sparse)
+        return cal_relaxation_sigmoid(l, u, mode)
 
 
 class TanhIneqNode(NonLinearIneqNode, TanhNode):
@@ -861,9 +853,8 @@ class TanhIneqNode(NonLinearIneqNode, TanhNode):
         l: Tensor,
         u: Tensor,
         mode: ActRelaxationMode,
-        to_sparse: bool = False,
     ) -> tuple[Tensor, Tensor, Tensor, Tensor]:
-        return cal_relaxation_tanh(l, u, mode, to_sparse)
+        return cal_relaxation_tanh(l, u, mode)
 
 
 class MaxPool2DIneqNode(NonLinearIneqNode, MaxPool2DNode):
@@ -907,10 +898,7 @@ class MaxPool2DIneqNode(NonLinearIneqNode, MaxPool2DNode):
         MaxPool2DNode.__init__(self, *args, **kwargs)
 
     def cal_relaxation(
-        self,
-        input_bound: ScalarBound,
-        shared_data: BPSharedData,
-        to_sparse: bool = False,
+        self, input_bound: ScalarBound, shared_data: BPSharedData
     ) -> LConstrBound:
         logger = logging.getLogger("rover")
         logger.debug(f"Calculate single-neuron relaxation.")
@@ -921,7 +909,7 @@ class MaxPool2DIneqNode(NonLinearIneqNode, MaxPool2DNode):
         l_max, l_argmax = self._get_l_argmax(pre_bound)
         mask = self.get_nontrivial_neuron_mask(pre_bound)
         sl, su, tl, tu = self._cal_relaxation(
-            l, u, self.act_relax_args.mode, to_sparse, l_max, l_argmax, mask
+            l, u, self.act_relax_args.mode, l_max, l_argmax, mask
         )
 
         return LConstrBound(L=LConstr(A=sl, b=tl), U=LConstr(A=su, b=tu))  # noqa
@@ -931,12 +919,11 @@ class MaxPool2DIneqNode(NonLinearIneqNode, MaxPool2DNode):
         l: Tensor,
         u: Tensor,
         mode: ActRelaxationMode,
-        to_sparse: bool = False,
         l_max: Tensor = None,
         l_argmax: Tensor = None,
         mask: Tensor = None,
     ) -> tuple[Tensor, Tensor, Tensor, Tensor]:
-        return cal_relaxation_maxpool2d(l, u, mode, to_sparse, l_max, l_argmax, mask)
+        return cal_relaxation_maxpool2d(l, u, mode, l_max, l_argmax, mask)
 
     def back_substitute_once(
         self,
