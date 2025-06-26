@@ -14,8 +14,8 @@ This artifact accompanies the paper **Convex Hull Approximation for Activation F
     - [Hardware Requirements](#hardware-requirements)
     - [Download Repository](#download-repository)
     - [Python Environment](#python-environment)
-        - [Python Libraries](#python-libraries)
-- [Step-by-Step Reproduce Results in the Paper](#step-by-step-reproduce-results-in-the-paper)
+    - [Python Libraries](#python-libraries)
+- [Step-by-Step Reproduce Results](#step-by-step-reproduce-results)
     - [Quick Kick-the-Tires](#quick-kick-the-tires)
     - [Evaluation: Function Hull Approximation](#evaluation-function-hull-approximation)
         - [Check Achieved Results](#check-achieved-results)
@@ -162,7 +162,7 @@ You also need to install the software [TexLive](https://www.tug.org/texlive/) if
 
 At this point, you have installed all required libraries.
 
-# Step-by-Step Reproduce Results in the Paper
+# Step-by-Step Reproduce Results
 
 This section describes how to run the evaluation code in the paper. The evaluation code is in the `evaluation_volume` and `evaluation_verification` folders.
 
