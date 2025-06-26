@@ -6,6 +6,28 @@ This artifact accompanies the paper **Convex Hull Approximation for Activation F
 
 > **TIP**: You can download our original logs and benchmark ONNX models from this [**Google Drive link**](https://drive.google.com/drive/folders/1C4kYaKb_Pd3xCo6aCy6W80tw43CM8Nn8?usp=drive_link).
 
+**Table of Contents**
+
+- [Quick Installation and Test](#quick-installation-and-test)
+- [Quick Reproduce Results](#quick-reproduce-results)
+- [Step-by-Step Installation](#step-by-step-installation)
+    - [Hardware Requirements](#hardware-requirements)
+    - [Download Repository](#download-repository)
+    - [Python Environment](#python-environment)
+        - [Python Libraries](#python-libraries)
+- [Step-by-Step Reproduce Results in the Paper](#step-by-step-reproduce-results-in-the-paper)
+    - [Quick Kick-the-Tires](#quick-kick-the-tires)
+    - [Evaluation: Function Hull Approximation](#evaluation-function-hull-approximation)
+        - [Check Achieved Results](#check-achieved-results)
+        - [Reproduce Results](#reproduce-results)
+    - [Evaluation: Local Robustness Verification](#evaluation-local-robustness-verification)
+        - [Check Achieved Results](#check-achieved-results-1)
+        - [Reproduce Results](#reproduce-results-1)
+- [Reuse the Source Code](#reuse-the-source-code)
+    - [Main Code Structure](#main-code-structure)
+    - [How to Extend the Code](#how-to-extend-the-code)
+- [License](#license)
+
 # Quick Installation and Test
 
 If you're familiar with Python and the libraries we use, you can quickly install WraAct by following these steps:
