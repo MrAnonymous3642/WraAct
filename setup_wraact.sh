@@ -80,9 +80,12 @@ if [ "$USE_CUDA" = true ]; then
     pip install torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1 --index-url https://download.pytorch.org/whl/cu121
     TORCH_BACKEND="CUDA"
 else
-    echo "[INFO] Installing PyTorch with CPU support..."
+    echo "[WARNING] Installing PyTorch with CPU support..."
+    echo "[WARNING] If you have a GPU, please install the GPU version manually from PyTorch official website."
+    echo "[WARNING] Refer to https://pytorch.org/get-started/locally/ for more details."
     pip install torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1 --index-url https://download.pytorch.org/whl/cpu
     TORCH_BACKEND="CPU"
+
 fi
 
 
@@ -184,22 +187,64 @@ else
 fi
 
 # ======================================================================================
+# Check if the user has gurobi license
+echo "[INFO] Running minimal Gurobi model to detect license..."
+
+# Run a minimal Gurobi model to check for license issues, redirecting output to a temporary log file
+python -u <<EOF > .gurobi_license_log.tmp 2>&1
+import gurobipy as gp
+model = gp.Model()
+x = model.addVar()
+model.setObjective(x, gp.GRB.MAXIMIZE)
+model.optimize()
+EOF
+
+# Check the log file for license-related messages
+LICENSE_INFO=$(grep -Ei 'license|Academic|restricted|expired|ERROR' .gurobi_license_log.tmp || true)
+
+
+
+if [[ -z "$LICENSE_INFO" ]]; then
+    echo "[WARNING] No license info detected. Gurobi may still be usable for small models."
+else
+    echo "[INFO] Detected license info:"
+    echo "$LICENSE_INFO"
+fi
+
+IF_RESTRICTED_GUROBI=true
+# If "Restricted license" in the output, prompt the user to set up a Gurobi license
+if echo "$LICENSE_INFO" | grep -q "Restricted license"; then
+    echo "[WARNING] You have a restricted Gurobi license. Please set up your Gurobi license by following the instructions at Gurobi official website."
+    echo "[WARNING] Refer to http://www.gurobi.com/academia/academic-program-and-licenses/ for more details."
+else
+    IF_RESTRICTED_GUROBI=false
+    echo "[INFO] Gurobi license appears to be valid."
+fi
+
+# ======================================================================================
+conda activate $ENV_NAME
 
 
 echo ""
 echo "[INFO] Result Summary:"
 echo "[INFO] You have created a Conda environment named '$ENV_NAME' with Python $PYTHON_VERSION."
-echo "[INFO] You should have activated the environment using 'conda activate $ENV_NAME'."
+echo "[INFO] You should activate the environment using 'conda activate $ENV_NAME'."
 echo "[INFO] The environment has PyTorch installed with $TORCH_BACKEND support."
+if [ "$USE_CUDA" = true ]; then
+    echo "[INFO] CUDA support is enabled."
+else
+    echo "[WARNING] CUDA support is not enabled. Please try to manually install GPU versioned at PyTorch official website. Otherwise, the computation will take much longer."
+    echo "[WARNING] Refer to https://pytorch.org/get-started/locally/ for more details."
+fi
 echo "[INFO] You have installed the following packages:"
 pip freeze | grep -E '^(torch|torchvision|torchaudio|gurobipy|scipy|onnx|onnxruntime|numba|pycddlib|matplotlib)'
-# Check if the user has gurobi license
-if [ -z "$GUROBI_HOME" ]; then
-    echo "[WARNING] Gurobi license environment variable 'GUROBI_HOME' is not set."
-    echo "[INFO] Please ensure you have a valid Gurobi license installed."
+if [ "$IF_RESTRICTED_GUROBI" = false ]; then
+    echo "[WARNING] You have a restricted Gurobi license. Please apply your Gurobi license at Gurobi official website. Otherwise, you can not run the whole WraAct with large-scale models."
+    echo "[WARNING] Refer to http://www.gurobi.com/academia/academic-program-and-licenses/ for more details."
 else
-    echo "[INFO] Gurobi license is set up at '$GUROBI_HOME'."
+    echo "[INFO] Your Gurobi license appears to be valid."
 fi
+echo "[INFO] The Gurobi license"
 echo "[INFO] You have downloaded and extracted the following resources:"
 echo "[INFO] - nets: ./nets"
 echo "[INFO] - archived_logs: ./archived_logs"

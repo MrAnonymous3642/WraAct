@@ -30,6 +30,8 @@ This artifact accompanies the paper **Convex Hull Approximation for Activation F
 
 # Quick Installation and Test
 
+> You need the license of [Gurobi](https://www.gurobi.com/academia/academic-program-and-licenses/) to run the code in this repository. [Academic Named-User License](https://www.gurobi.com/features/academic-named-user-license/?_gl=1*egge2l*_up*MQ..*_gs*MQ..&gclid=CjwKCAjw3_PCBhA2EiwAkH_j4rrGVU5Rgx73EwYA6Py26R10HVHzY9Jokty2eH26q0CS7H-HFoQWihoCWw8QAvD_BwE&gbraid=0AAAAA-OoJU4jkCtivoppVlJFFFMV6UVqM) is recommended for academic users.
+
 If you're familiar with Python and the libraries we use, you can quickly install WraAct by following these steps:
 
 ```cmd
