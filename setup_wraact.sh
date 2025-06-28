@@ -162,7 +162,6 @@ download_and_extract \
     "./archived_logs"
 
 # ======================================================================================
-
 echo "[INFO] Running minimal Gurobi model to detect license..."
 
 # Run a minimal Gurobi model to check for license issues, redirecting output to a temporary log file
@@ -178,31 +177,6 @@ EOF
 LICENSE_INFO=$(grep -Ei 'license|Academic|restricted|expired|ERROR' .gurobi_license_log.tmp || true)
 # Clean up the temporary log file
 rm -f .gurobi_license_log.tmp
-
-if [[ -z "$LICENSE_INFO" ]]; then
-    echo "[WARNING] No license info detected. Gurobi may still be usable for small models."
-else
-    echo "[INFO] Detected license info:"
-    echo "$LICENSE_INFO"
-fi
-
-# ======================================================================================
-# Check if the user has gurobi license
-echo "[INFO] Running minimal Gurobi model to detect license..."
-
-# Run a minimal Gurobi model to check for license issues, redirecting output to a temporary log file
-python -u <<EOF > .gurobi_license_log.tmp 2>&1
-import gurobipy as gp
-model = gp.Model()
-x = model.addVar()
-model.setObjective(x, gp.GRB.MAXIMIZE)
-model.optimize()
-EOF
-
-# Check the log file for license-related messages
-LICENSE_INFO=$(grep -Ei 'license|Academic|restricted|expired|ERROR' .gurobi_license_log.tmp || true)
-
-
 
 if [[ -z "$LICENSE_INFO" ]]; then
     echo "[WARNING] No license info detected. Gurobi may still be usable for small models."
@@ -244,7 +218,6 @@ if [ "$IF_RESTRICTED_GUROBI" = false ]; then
 else
     echo "[INFO] Your Gurobi license appears to be valid."
 fi
-echo "[INFO] The Gurobi license"
 echo "[INFO] You have downloaded and extracted the following resources:"
 echo "[INFO] - nets: ./nets"
 echo "[INFO] - archived_logs: ./archived_logs"
