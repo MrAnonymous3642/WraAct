@@ -1,7 +1,8 @@
 """This is for organizing the data of volume to output a table for the paper."""
 
-import numpy as np
 import time
+
+import numpy as np
 
 time_start = time.perf_counter()
 
@@ -27,9 +28,19 @@ for dim in [2, 3, 4]:  # dimension
             "prima_maxpool",
             "our_maxpool_dlp",
         ]:
+            print(
+                f"[INFO] Processing dimension: {dim}, constraints number: {n}, method: {method}"
+            )
             file_path = f"./polytopes_{dim}d_{n}_{method}_volume.txt"
+            # If the file does not exist, skip it
+
             with open(file_path, "r") as f:
                 lines = f.readlines()
+
+            if not lines:
+                print(f"[WARNING] No data found for {file_path}. Skipping...")
+                all_data[dim][n][method] = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]
+                continue
 
             lines = [line.replace("\n", "").split("\t") for line in lines]
             data = np.asarray([[float(item) for item in line] for line in lines])
@@ -78,6 +89,8 @@ for item_idx, item_name in enumerate(
                 row_str += f"{mean_data:>8.2f} & $\\pm$ & {f"({std_data:.2f})":<8} & "
         row_str = row_str[:-3] + " \\\\"
         print(row_str)
+
+print(f"[INFO] If you do not have ELINA, the data of PRIMA will be 0.")
 
 print()
 print(f"[INFO] Done in {time.perf_counter() - time_start:.2f} seconds")

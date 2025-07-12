@@ -2,7 +2,6 @@
 
 import os
 import time
-
 from typing import Optional, Tuple, List
 
 import gurobipy as grb
@@ -82,7 +81,9 @@ if __name__ == "__main__":
 
     print("[INFO]Start calculating the bounds of each dimension in the polytopes...")
 
-    polytope_samples_folder = "../polytope_samples"
+    # Get the current directory and go to the parent directory
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    polytope_samples_folder = os.path.join(current_dir, "../polytope_samples")
     polytope_samples_files = os.listdir(polytope_samples_folder)
     polytope_samples_files = [
         file

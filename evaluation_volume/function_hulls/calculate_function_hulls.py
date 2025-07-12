@@ -37,8 +37,10 @@ if __name__ == "__main__":
 
     print("[INFO] Start calculating the function hulls...")
 
-    constraints_dir = "../polytope_samples"
-    bounds_dir = "../polytope_bounds"
+    # Get the current directory and go to the parent directory
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    constraints_dir = os.path.join(current_dir, "../polytope_samples")
+    bounds_dir = os.path.join(current_dir, "../polytope_bounds")
     constraints_files = os.listdir(constraints_dir)
     constraints_files = [file for file in constraints_files if file.endswith(".txt")]
     # Sort by dimension

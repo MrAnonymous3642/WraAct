@@ -1,5 +1,8 @@
 #!/bin/bash
 
-python3 ./function_hulls/organize_data.py
-python3 ./function_hulls/plot_line_chart.py
-python3 ./hull_volumes/output_table_data.py
+cd ./function_hulls
+python3 organize_data.py
+python3 plot_line_chart.py
+
+cd ../hull_volumes
+python3 output_table_data.py

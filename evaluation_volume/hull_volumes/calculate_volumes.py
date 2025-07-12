@@ -205,7 +205,9 @@ if __name__ == "__main__":
 
     print(f"[INFO] Start calculating volumes...")
 
-    output_constraints_dir = "../function_hulls"
+    # Get the current directory and go to the parent directory
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    output_constraints_dir = os.path.join(current_dir, "../function_hulls")
     output_constraints_files = os.listdir(output_constraints_dir)
     output_constraints_files = [
         file
