@@ -272,7 +272,6 @@ if __name__ == "__main__":
             file.write(f"{time_cal}\t{constraints_num}\t{volume}\t{points_num}\n")
         file.close()
         print(f"[INFO] Results saved to {saved_file_path}")
-        print()
 
     time_end = time.perf_counter()
     print(f"[INFO] Done in {time_end - time_start:.4f} seconds.")

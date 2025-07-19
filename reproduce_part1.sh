@@ -5,7 +5,7 @@ echo "[INFO] Entering evaluation_volume directory..."
 cd evaluation_volume
 
 echo "[INFO] Calculating function hull volumes..."
-bash evaluation_methods.sh
+bash evaluate_methods.sh
 
 echo "[INFO] Generating output tables or figures..."
 bash output_data.sh
