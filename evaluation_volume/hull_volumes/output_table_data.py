@@ -86,7 +86,7 @@ for item_idx, item_name in enumerate(
             if item_idx in {0, 1}:
                 row_str += f"{mean_data:.6f} & $\\pm$ & ({std_data:.6f}) & "
             else:
-                row_str += f"{mean_data:>8.2f} & $\\pm$ & {f"({std_data:.2f})":<8} & "
+                row_str += f"{mean_data:>8.2f} & $\\pm$ & {f'({std_data:.2f})':<8} & "
         row_str = row_str[:-3] + " \\\\"
         print(row_str)
 
