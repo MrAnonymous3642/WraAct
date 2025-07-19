@@ -43,6 +43,9 @@ bash test_wraact.sh
 
 This part includes the installation of the required libraries, downloading the benchmark ONNX models, downloading the archived logs of our paper, and running a quick test to check if the tool works well.
 
+The expected outputs of `bash test_wraact.sh` is to verify a small instance of local robustness verification, and it prints the instance to verify is `UNKNOWN`, which means our sound approach cannot decide this instance is verified or not. Another possible result is `SAT`, which means the instance is verified and the local robustness is satisfied. If you see the output like this, it means the installation is successful and the tool works well.
+
+
 > **NOTE**: If you encounter any issues during the installation, please refer to the [Step-by-Step Installation](#step-by-step-installation) section below for detailed instructions.
 
 # Quick Reproduce Results
@@ -178,7 +181,7 @@ bash test.sh
 
 ## Evaluation: Function Hull Approximation
 
-The `evaluation_volume` folder contains the code about volume evaluation of convex hull approximation for activation functions. To evaluate the convex hull approximation method in [PRIMA](https://dl.acm.org/doi/pdf/10.1145/3498704), you need install [ELINA](https://github.com/eth-sri/ELINA) and put it in the `WraAct` folder if you need test the methods in [PRIMA](https://dl.acm.org/doi/pdf/10.1145/3498704) called SBLM+PDDM. If you only want to use WraAct, you do not need to install ELINA.
+The `evaluation_volume` folder contains the code about volume evaluation of convex hull approximation for activation functions. To evaluate the convex hull approximation method in [PRIMA](https://dl.acm.org/doi/pdf/10.1145/3498704), you need install [ELINA](https://github.com/eth-sri/ELINA) and put it outside the `WraAct` folder if you need test the methods in [PRIMA](https://dl.acm.org/doi/pdf/10.1145/3498704) called SBLM+PDDM. If you only want to use WraAct, you do not need to install ELINA.
 
 ### Check Achieved Results
 

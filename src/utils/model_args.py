@@ -14,7 +14,6 @@ __all__ = [
 import logging
 import os
 from dataclasses import dataclass
-
 from torch import Tensor
 
 from .enums import *
@@ -444,12 +443,6 @@ class KActLPArgs:
     The template for the constraints. 
     The default value is `ConstrTemplate.HEXAGON`.
     Refer to the `ConstrTemplate` for the details.
-    """
-
-    use_maxpool_dlp: bool = True
-    """
-    Whether to use DLP (double linear piece) function to calculate the function hull 
-    for the MaxPool. The default value is False.
     """
 
     def __post_init__(self):

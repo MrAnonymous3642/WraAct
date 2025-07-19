@@ -37,12 +37,11 @@ before solving the linear program.
 __docformat__ = "restructuredtext"
 __all__ = ["KActLPBoundModel"]
 
-import logging
-import time
-
 import gurobipy
+import logging
 import math
 import numpy as np
+import time
 import torch
 import torch.nn.functional as F
 from gurobipy import GRB
@@ -328,7 +327,6 @@ class KActLPBoundModel(LPBoundModel):
                 grouped_input_ids,
                 grouped_input_constrs,
                 act_type,
-                use_maxpool_dlp=self.kact_lp_args.use_maxpool_dlp,
                 pool_input_l=pool_input_l,
                 pool_input_u=pool_input_u,
                 use_multi_threads=self.kact_lp_args.use_multi_threads,
