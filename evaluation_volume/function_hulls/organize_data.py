@@ -6,29 +6,21 @@ time_start = time.perf_counter()
 
 dimensions = [2, 3, 4, 5, 6, 7, 8]
 data_dict = {
-    "single_sigmoid": [],
-    "single_tanh": [],
-    "single_maxpool": [],
-    "prima_sigmoid": [],
-    "prima_tanh": [],
-    "prima_maxpool": [],
     "our_sigmoid": [],
     "our_tanh": [],
     "our_maxpool_dlp": [],
+    "our_leakyrelu": [],
+    "our_elu": [],
 }
 
 print("[INFO] Start organizing data...")
 
 for method in [
-    "single_sigmoid",
-    "single_tanh",
-    "single_maxpool",
-    "prima_sigmoid",
-    "prima_tanh",
-    "prima_maxpool",
     "our_sigmoid",
     "our_tanh",
     "our_maxpool_dlp",
+    "our_leakyrelu",
+    "our_elu",
 ]:
     for d in dimensions:
         for n in [3]:

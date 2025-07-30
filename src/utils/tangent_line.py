@@ -205,7 +205,6 @@ def get_parallel_tangent_line(
 
     :return: The intercepts, slope, and tangent point of the tangent line.
     """
-    dtype = k.dtype
 
     if isinstance(k, Tensor):
         k = k.to(dtype=torch.float64, device=k.device)
@@ -214,7 +213,7 @@ def get_parallel_tangent_line(
             b, k, x = _get_parallel_tangent_line_sigmoid_torch(k, get_big)
         else:
             b, k, x = _get_parallel_tangent_line_tanh_torch(k, get_big)
-
+        dtype = k.dtype
         b = b.to(dtype=dtype)
         k = k.to(dtype=dtype)
         x = x.to(dtype=dtype)
@@ -228,7 +227,7 @@ def get_parallel_tangent_line(
             b, k, x = _get_parallel_tangent_line_sigmoid_np(k, get_big)
         else:
             b, k, x = _get_parallel_tangent_line_tanh_np(k, get_big)
-
+        dtype = k.dtype
         b = b.astype(dtype)
         k = k.astype(dtype)
         x = x.astype(dtype)
@@ -236,7 +235,6 @@ def get_parallel_tangent_line(
         return b, k, x
 
     else:
-
         k = np.array(k, dtype=np.float64)
 
         if func == "sigmoid":
@@ -306,3 +304,10 @@ def get_second_tangent_line(
             b, k, x = _get_second_tangent_line_tanh_np(x, get_big)
 
         return float(b), float(k), float(x)
+
+
+# Warm up the functions to avoid the first call overhead
+get_parallel_tangent_line(0.5, True, "sigmoid")
+get_second_tangent_line(0.5, True, "sigmoid")
+get_parallel_tangent_line(0.5, True, "tanh")
+get_second_tangent_line(0.5, True, "tanh")

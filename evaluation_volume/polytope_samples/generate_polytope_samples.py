@@ -2,11 +2,11 @@
 
 import itertools
 import random
+import time
 from typing import List, Optional, Tuple
 
-import numpy as np
-import time
 import gurobipy as grb
+import numpy as np
 from gurobipy import GRB
 
 

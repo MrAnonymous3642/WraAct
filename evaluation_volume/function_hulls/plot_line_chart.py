@@ -1,6 +1,5 @@
 """This is for plot the line chart in the paper."""
 
-
 # You can uncomment the following lines to use pgf for LaTeX integration
 # --------------------------------------------------------------------------------------
 # import matplotlib
@@ -9,9 +8,10 @@
 # matplotlib.rcParams["text.usetex"] = True
 # --------------------------------------------------------------------------------------
 
+import time
+
 import matplotlib.pyplot as plt
 import numpy as np
-import time
 
 time_start = time.perf_counter()
 
@@ -29,7 +29,7 @@ fig.subplots_adjust(
 plt.tight_layout()
 
 indices = ["a", "b"]
-methods = ["our_sigmoid", "our_tanh", "our_maxpool_dlp"]
+methods = ["our_sigmoid", "our_tanh", "our_maxpool_dlp", "our_leakyrelu", "our_elu"]
 dimensions = [2, 3, 4, 5, 6, 7, 8]
 ax = plt.subplot(1, 1, 1)
 ax.set_xlabel("Input Dimension", fontsize=16)
@@ -40,10 +40,10 @@ ax.tick_params(axis="both", which="major", labelsize=12)
 ax.grid(which="major", axis="y", linestyle="--", alpha=0.6)
 
 
-styles = ["ks-", "k^--", "ko:"]
-legends = ["Sigmoid", "Tanh", "MaxPool"]
+styles = ["ks-", "k^--", "ko:", "kD-.", "kx-"]
+legends = ["Sigmoid", "Tanh", "MaxPool", "LeakyReLU", "ELU"]
 
-for i in range(3):
+for i in range(len(methods)):
     method = methods[i]
 
     data = np.array(data_dict[method]).T

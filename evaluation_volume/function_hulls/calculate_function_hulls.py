@@ -20,6 +20,7 @@ except ImportError as e:
 
 
 from src.funchull.acthull import *
+from src.funchull.ablation_study import *
 
 
 def read_constraints_and_bounds(constraints_file_path: str, bounds_file_path: str):
@@ -50,12 +51,22 @@ if __name__ == "__main__":
         "single_sigmoid",
         "single_tanh",
         "single_maxpool",
+        "single_leakyrelu",
+        "single_elu",
         "prima_sigmoid",
         "prima_tanh",
         "prima_maxpool",
         "our_sigmoid",
         "our_tanh",
         "our_maxpool_dlp",
+        "our_leakyrelu",
+        "our_elu",
+        "our_sigmoid-a",
+        "our_sigmoid-b",
+        "our_tanh-a",
+        "our_tanh-b",
+        "our_elu-a",
+        "our_maxpool_dlp-a",
     ]:
         for i, constraints_file in enumerate(constraints_files):
             if "prima" in method and constraints_file.endswith("oct.txt"):
@@ -76,7 +87,12 @@ if __name__ == "__main__":
 
                 continue
 
-            if dim > 4 and "prima" in method:
+            if dim > 4 and (
+                "prima" in method
+                or "-a" in method
+                or "-b" in method
+                or "single" in method
+            ):
                 # PRIMA does not support dimensions greater than 4
                 continue
 
@@ -138,6 +154,30 @@ if __name__ == "__main__":
                 elif method == "our_maxpool_dlp":
                     fun_hull = MaxPoolHullDLP(if_cal_single_neuron_constrs=True)
                     output_constraints = fun_hull.cal_hull(input_constrs=constraints)
+                elif method == "our_leakyrelu":
+                    fun_hull = LeakyReLUHull(if_cal_single_neuron_constrs=True)
+                    output_constraints = fun_hull.cal_hull(input_constrs=constraints)
+                elif method == "our_elu":
+                    fun_hull = ELUHull(if_cal_single_neuron_constrs=True)
+                    output_constraints = fun_hull.cal_hull(input_constrs=constraints)
+                elif method == "our_sigmoid-a":
+                    fun_hull = SigmoidHullA(if_cal_single_neuron_constrs=True)
+                    output_constraints = fun_hull.cal_hull(input_constrs=constraints)
+                elif method == "our_sigmoid-b":
+                    fun_hull = SigmoidHullB(if_cal_single_neuron_constrs=True)
+                    output_constraints = fun_hull.cal_hull(input_constrs=constraints)
+                elif method == "our_tanh-a":
+                    fun_hull = TanhHullA(if_cal_single_neuron_constrs=True)
+                    output_constraints = fun_hull.cal_hull(input_constrs=constraints)
+                elif method == "our_tanh-b":
+                    fun_hull = TanhHullB(if_cal_single_neuron_constrs=True)
+                    output_constraints = fun_hull.cal_hull(input_constrs=constraints)
+                elif method == "our_elu-a":
+                    fun_hull = ELUHullA(if_cal_single_neuron_constrs=True)
+                    output_constraints = fun_hull.cal_hull(input_constrs=constraints)
+                elif method == "our_maxpool_dlp-a":
+                    fun_hull = MaxPoolDLPHullA(if_cal_single_neuron_constrs=True)
+                    output_constraints = fun_hull.cal_hull(input_constrs=constraints)
                 elif method == "single_sigmoid":
                     fun_hull = SigmoidHull(
                         if_cal_single_neuron_constrs=True,
@@ -156,6 +196,22 @@ if __name__ == "__main__":
                     )
                 elif method == "single_maxpool":
                     fun_hull = MaxPoolHullDLP(
+                        if_cal_single_neuron_constrs=True,
+                        if_cal_multi_neuron_constrs=False,
+                    )
+                    output_constraints = fun_hull.cal_hull(
+                        input_lower_bounds=lb, input_upper_bounds=ub
+                    )
+                elif method == "single_leakyrelu":
+                    fun_hull = LeakyReLUHull(
+                        if_cal_single_neuron_constrs=True,
+                        if_cal_multi_neuron_constrs=False,
+                    )
+                    output_constraints = fun_hull.cal_hull(
+                        input_lower_bounds=lb, input_upper_bounds=ub
+                    )
+                elif method == "single_elu":
+                    fun_hull = ELUHull(
                         if_cal_single_neuron_constrs=True,
                         if_cal_multi_neuron_constrs=False,
                     )

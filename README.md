@@ -4,7 +4,7 @@ This is an artifact for the tool called **WraAct**, which over-approximates the 
 
 This artifact accompanies the paper **Convex Hull Approximation for Activation Functions**.
 
-> **TIP**: You can download our original logs and benchmark ONNX models from this [**Google Drive link**](https://drive.google.com/drive/folders/1C4kYaKb_Pd3xCo6aCy6W80tw43CM8Nn8?usp=drive_link).
+> **TIP**: You can download our original logs and benchmark ONNX models from [Google Drive link](https://drive.google.com/drive/folders/1C4kYaKb_Pd3xCo6aCy6W80tw43CM8Nn8?usp=sharing).
 
 **Table of Contents**
 
@@ -185,7 +185,7 @@ The `evaluation_volume` folder contains the code about volume evaluation of conv
 
 ### Check Achieved Results
 
-The subfolder `archieved_logs/evaluation_volume` contains the experiment logs of our paper.
+The subfolder `archieved_logs/evaluation_volume` contains the experiment logs of our paper. You need to download the archived logs of our paper from the [Google Drive link](https://drive.google.com/drive/folders/1C4kYaKb_Pd3xCo6aCy6W80tw43CM8Nn8?usp=sharing).
 
 ### Reproduce Results
 
@@ -261,11 +261,11 @@ cd WraAct/evaluation_verification
 
 ### Check Achieved Results
 
-The folder `archived_logs/evaluation_verification` contains the logs of local robustness verification in our paper.
+The folder `archived_logs/evaluation_verification` contains the logs of local robustness verification in our paper. You need to download the archived logs of our paper from the [Google Drive link](https://drive.google.com/drive/folders/1C4kYaKb_Pd3xCo6aCy6W80tw43CM8Nn8?usp=sharing).
 
 ### Reproduce Results
 
-All the evaluation scripts call `exp.py` for running experiments. You can see the following bash files in the `evaluation_verification` folder:
+You need to first download the benchmark ONNX models from [Google Drive link](https://drive.google.com/drive/folders/1C4kYaKb_Pd3xCo6aCy6W80tw43CM8Nn8?usp=sharing). All the evaluation scripts call `exp.py` for running experiments. You can see the following bash files in the `evaluation_verification` folder:
 
 - `mnist_sshape.sh`: for S-shape functions (sigmoid, tanh) on the MNIST dataset (Table 4 in the paper)
 - `cifar10_sshape.sh`: for S-shape functions (sigmoid, tanh) on the CIFAR-10 dataset (Table 4 in the paper)
@@ -319,11 +319,11 @@ auto-LiRPA/                  # (Optional) auto_LiRPA for CROWN (for baseline com
 The archived logs of our paper are in the `archieved_logs` folder. The benchmark models are in the `nets` folder. The other folders are for baseline approaches, including ELINA for SBLM+PDDM in PRIMA, ERAN for DeepPoly and PRIMA, and auto-LiRPA for vanilla CROWN.
 
 > **NOTE**:
-> - You need to download the benchmark ONNX models from the [Google Drive link](https://drive.google.com/drive/folders/1C4kYaKb_Pd3xCo6aCy6W80tw43CM8Nn8?usp=drive_link) and put them in the `nets` folder.
+> - You need to download the benchmark ONNX models from the [Google Drive link](https://drive.google.com/drive/folders/1C4kYaKb_Pd3xCo6aCy6W80tw43CM8Nn8?usp=sharing) and put them in the `nets` folder.
 > - The MNIST and CIFAR-10 datasets will be downloaded automatically when you run the code with PyTorch. They are saved in the `.temp` folder.
 
 > **TIP**: The following folders are not necessary for running the code, and you can skip them if you only want to run the code in this repository.
-> - Download the archived logs of our paper from the [Google Drive link](https://drive.google.com/drive/folders/1C4kYaKb_Pd3xCo6aCy6W80tw43CM8Nn8?usp=drive_link) and put them in the `archieved_logs` folder.
+> - Download the archived logs of our paper from the [Google Drive link](https://drive.google.com/drive/folders/1C4kYaKb_Pd3xCo6aCy6W80tw43CM8Nn8?usp=sharing) and put them in the `archieved_logs` folder.
 > - Install [auto_LiRPA](https://github.com/Verified-Intelligence/auto_LiRPA) for [CROWN](https://arxiv.org/pdf/1811.00866) and put it in the `auto-LiRPA` folder.
 > - Install [ERAN](https://github.com/eth-sri/eran) for [DeepPoly](https://dl.acm.org/doi/pdf/10.1145/3290354) and [PRIMA](https://dl.acm.org/doi/pdf/10.1145/3498704) and put it in the `ERAN` folder. Note: when you install ERAN, you need to install the [ELINA](https://github.com/eth-sri/ELINA) project first and put it in the `ELINA` folder. This may require some file structure changes in the `ERAN` folder.
 

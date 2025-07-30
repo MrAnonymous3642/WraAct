@@ -19,14 +19,24 @@ for dim in [2, 3, 4]:  # dimension
     for n in [3]:  # constraints number indicator
         for method in [
             "single_sigmoid",
-            "prima_sigmoid",
-            "our_sigmoid",
             "single_tanh",
-            "prima_tanh",
-            "our_tanh",
             "single_maxpool",
+            "single_leakyrelu",
+            "single_elu",
+            "prima_sigmoid",
+            "prima_tanh",
             "prima_maxpool",
+            "our_sigmoid",
+            "our_tanh",
             "our_maxpool_dlp",
+            "our_leakyrelu",
+            "our_elu",
+            "our_sigmoid-a",
+            "our_sigmoid-b",
+            "our_tanh-a",
+            "our_tanh-b",
+            "our_elu-a",
+            "our_maxpool_dlp-a",
         ]:
             print(
                 f"[INFO] Processing dimension: {dim}, constraints number: {n}, method: {method}"
@@ -59,38 +69,61 @@ print(
     f"{time.perf_counter() - time_start:.2f} seconds."
 )
 print(f"[INFO] Data saved to polytopes_data_dict.txt")
-
 print(f"[INFO] Outputting the table...")
 print()
 
-n = 3
-methods = [
-    "prima_sigmoid",
-    "our_sigmoid",
-    "prima_tanh",
-    "our_tanh",
-    "prima_maxpool",
-    "our_maxpool_dlp",
-]
-# 0: time, 1: volume, 2: constraints number
-print(" & ".join(["Dimension"] + methods) + " \\\\")
-for item_idx, item_name in enumerate(
-    ["Runtime (s)", "Estimated Volume", "Number of Constraints"]
-):
-    print(f"{item_name} \\\\")
-    for dim in {2, 3, 4}:
-        row_str = f"{dim} & "
-        for method in methods:
-            mean_data = all_data[dim][n][method][0][item_idx]
-            std_data = all_data[dim][n][method][1][item_idx]
-            if item_idx in {0, 1}:
-                row_str += f"{mean_data:.6f} & $\\pm$ & ({std_data:.6f}) & "
-            else:
-                row_str += f"{mean_data:>8.2f} & $\\pm$ & {f'({std_data:.2f})':<8} & "
-        row_str = row_str[:-3] + " \\\\"
-        print(row_str)
 
+def print_table(methods):
+    print()
+    print()
+    print(" & ".join(["Dimension"] + methods) + " \\\\")
+    for item_idx, item_name in enumerate(
+        ["Runtime (s)", "Estimated Volume", "Number of Constraints"]
+    ):
+        print(f"{item_name} \\\\")
+        for dim in {2, 3, 4}:
+            row_str = f"{dim} & "
+            for method in methods:
+                mean_data = all_data[dim][n][method][0][item_idx]
+                std_data = all_data[dim][n][method][1][item_idx]
+                if item_idx in {0, 1}:
+                    row_str += f"{mean_data:.6f} & $\\pm$({std_data:.6f}) & "
+                else:
+                    row_str += f"{mean_data:>8.2f} & $\\pm${f'({std_data:.2f})':<8} & "
+            row_str = row_str[:-3] + " \\\\"
+            print(row_str)
+
+
+n = 3
+methods = ["prima_sigmoid", "our_sigmoid"]
+print_table(methods)
 print(f"[INFO] If you do not have ELINA, the data of PRIMA will be 0.")
+methods = ["prima_tanh", "our_tanh"]
+print_table(methods)
+print(f"[INFO] If you do not have ELINA, the data of PRIMA will be 0.")
+methods = ["prima_maxpool", "our_maxpool_dlp"]
+print_table(methods)
+print(f"[INFO] If you do not have ELINA, the data of PRIMA will be 0.")
+
+methods = ["single_sigmoid", "our_sigmoid"]
+print_table(methods)
+methods = ["single_tanh", "our_tanh"]
+print_table(methods)
+methods = ["single_maxpool", "our_maxpool_dlp"]
+print_table(methods)
+methods = ["single_leakyrelu", "our_leakyrelu"]
+print_table(methods)
+methods = ["single_elu", "our_elu"]
+print_table(methods)
+
+methods = ["our_sigmoid-a", "our_sigmoid-b", "our_sigmoid"]
+print_table(methods)
+methods = ["our_tanh-a", "our_tanh-b", "our_tanh"]
+print_table(methods)
+methods = ["our_elu-a", "our_elu"]
+print_table(methods)
+methods = ["our_maxpool_dlp-a", "our_maxpool_dlp"]
+print_table(methods)
 
 print()
 print(f"[INFO] Done in {time.perf_counter() - time_start:.2f} seconds")
